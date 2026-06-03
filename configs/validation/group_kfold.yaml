@@ -1,0 +1,6 @@
+protocol: group_kfold
+n_splits: 3
+shuffle: true
+random_state: 42
+vf_bins: 3
+extrapolation_train_q: 0.9

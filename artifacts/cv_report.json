@@ -1,0 +1,27 @@
+{
+  "protocol_primary": "group_kfold",
+  "primary": {
+    "xgb_rmse": 0.21745621618944735,
+    "xgb_r2": -1.2948571241416498,
+    "ridge_rmse": 0.11611075690023837,
+    "rf_rmse": 0.10215338242462711
+  },
+  "primary_std": {
+    "xgb_rmse": 0.04957491448987855,
+    "xgb_r2": 1.0544266809257776,
+    "ridge_rmse": 0.025583750965057238,
+    "rf_rmse": 0.0103230984173998
+  },
+  "random_kfold": {
+    "xgb_rmse": 0.1834195272584692,
+    "xgb_r2": -0.0517089261745014,
+    "ridge_rmse": 0.06810607432807501,
+    "rf_rmse": 0.09148248705572566
+  },
+  "split_gap_rmse_log_random_minus_group": -0.034036688930978165,
+  "extrapolation_vf": {
+    "threshold_vol_frac": 0.077,
+    "rmse_log": 0.21992674084160801,
+    "r2_log": -1.4007803663680587
+  }
+}

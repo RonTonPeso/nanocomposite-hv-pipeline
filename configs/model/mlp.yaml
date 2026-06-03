@@ -1,0 +1,5 @@
+name: mlp
+epochs: 150
+batch_size: 64
+lr: 0.001
+weight_decay: 0.0001

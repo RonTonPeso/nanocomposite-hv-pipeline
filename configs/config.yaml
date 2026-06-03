@@ -1,0 +1,14 @@
+defaults:
+  - paths: default
+  - features: default
+  - model: xgb
+  - validation: group_kfold
+  - _self_
+
+compare_splits: true
+ensemble_members: 8
+bootstrap_seed: 0
+wandb_project: nanocomposite-hardness
+use_wandb: false
+optuna_trials: 0
+shap_max_display: 25

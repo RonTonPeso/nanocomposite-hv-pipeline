@@ -1,0 +1,4 @@
+sample_id,source_paper_id,matrix_formula,reinforcement_formula,fabrication_route,vol_frac_reinf,temp_c,time_min,pressure_mpa,grain_size_nm,particle_size_nm,heat_treatment_c,rolling_reduction_pct,delta_alpha_1e6_k
+CAND-01,SYNTH,Al,SiC,spark plasma sintering,0.12,560,12,45,110,28,,,6
+CAND-02,SYNTH,Al,TiC,powder metallurgy,0.09,540,20,32,125,30,,,6
+CAND-03,SYNTH,Cu,Al2O3,hot pressing,0.08,590,25,35,200,42,,,5

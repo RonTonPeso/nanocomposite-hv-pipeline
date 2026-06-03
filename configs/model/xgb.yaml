@@ -1,0 +1,9 @@
+name: xgb
+# sklearn_hgb runs without Homebrew libomp; use lightgbm/xgboost on HPC/Linux when available.
+backend: sklearn_hgb
+n_estimators: 300
+max_depth: 4
+learning_rate: 0.06
+subsample: 0.9
+colsample_bytree: 0.85
+reg_lambda: 1.5

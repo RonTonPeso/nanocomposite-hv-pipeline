@@ -1,0 +1,25 @@
+sample_id,source_paper_id,matrix_formula,reinforcement_formula,fabrication_route,hardness_value,hardness_unit,vol_frac_reinf,temp_c,time_min,pressure_mpa,grain_size_nm,particle_size_nm,heat_treatment_c,rolling_reduction_pct,delta_alpha_1e6_k
+P1-A1,P1,Al,SiC,spark plasma sintering,120,hv,0.02,550,10,40,180,45,,,6
+P1-A2,P1,Al,SiC,spark plasma sintering,135,hv,0.04,550,10,40,150,40,,,6
+P1-A3,P1,Al,SiC,spark plasma sintering,148,hv,0.06,550,10,40,130,38,,,6
+P2-B1,P2,Cu,TiC,powder metallurgy,95,hv,0.03,600,30,25,220,50,,,5
+P2-B2,P2,Cu,TiC,powder metallurgy,108,hv,0.05,600,30,25,200,48,,,5
+P2-B3,P2,Cu,TiC,powder metallurgy,118,hv,0.07,600,30,25,185,46,,,5
+P3-C1,P3,Mg,Al2O3,stir casting,72,hv,0.02,700,45,5,300,60,,,7
+P3-C2,P3,Mg,Al2O3,stir casting,80,hv,0.04,700,45,5,260,55,,,7
+P3-C3,P3,Mg,Al2O3,stir casting,88,hv,0.06,700,45,5,240,52,,,7
+P4-D1,P4,Al,Al2O3,ball milling + sintering,110,hv,0.03,520,20,35,160,35,,,6
+P4-D2,P4,Al,Al2O3,ball milling + sintering,125,hv,0.05,520,20,35,140,32,,,6
+P4-D3,P4,Al,Al2O3,ball milling + sintering,138,hv,0.08,520,20,35,120,30,,,6
+P5-E1,P5,Al,SiC,friction stir processing,102,hv,0.02,480,8,10,190,42,,15,6
+P5-E2,P5,Al,SiC,friction stir processing,115,hv,0.04,480,8,10,170,40,,15,6
+P5-E3,P5,Al,SiC,friction stir processing,128,hv,0.06,480,8,10,155,38,,15,6
+P6-F1,P6,Cu,SiC,hot pressing,99,hv,0.03,580,25,30,210,48,,,5
+P6-F2,P6,Cu,SiC,hot pressing,112,hv,0.05,580,25,30,195,45,,,5
+P6-F3,P6,Cu,SiC,hot pressing,124,hv,0.07,580,25,30,180,44,,,5
+P7-G1,P7,Mg,TiC,spark plasma sintering,85,hv,0.04,530,12,45,250,50,,,6
+P7-G2,P7,Mg,TiC,spark plasma sintering,96,hv,0.06,530,12,45,230,47,,,6
+P7-G3,P7,Mg,TiC,spark plasma sintering,105,hv,0.09,530,12,45,210,45,,,6
+P8-H1,P8,Al,TiC,powder metallurgy,118,hv,0.05,560,18,28,145,33,,,6
+P8-H2,P8,Al,TiC,powder metallurgy,132,hv,0.07,560,18,28,130,31,,,6
+P8-H3,P8,Al,TiC,powder metallurgy,145,hv,0.1,560,18,28,115,29,,,6

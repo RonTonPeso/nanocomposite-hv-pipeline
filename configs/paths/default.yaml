@@ -1,0 +1,4 @@
+# Paths are resolved relative to the repository root in scripts/train.py
+canonical: data/interim/canonical.parquet
+processed_features: data/processed/features.parquet
+artifacts: artifacts
