@@ -56,11 +56,11 @@ slurm/                        HPC array job for multi-seed training
 notebooks/                    EDA, feature iteration, SHAP analysis
 ```
 
-## Honest evaluation
+## Notes to Self
 
-Always report **group-aware** CV (paper ID) alongside random splits. The gap between them
-diagnoses leakage from correlated literature rows: `train.py` writes
-`split_gap_rmse_log_group_minus_random` to `artifacts/cv_report.json`, where a positive
-value means the grouped error is higher, i.e. random splits are optimistic (leakage).
-A volume-fraction extrapolation holdout (`extrapolation_vf`) additionally tests
+Always report **group-aware** CV ,paper ID, alongside random splits. The gap between them
+diagnoses leakage from related literature rows `train.py` writes
+`split_gap_rmse_log_group_minus_random` to `artifacts/cv_report.json`, where a pos
+val means the grouped error is higher, random splits are optimistic - leakage.
+A volume-fraction extrapolation holdout (`extrapolation_vf`) tests
 generalization beyond the training reinforcement-loading range.
