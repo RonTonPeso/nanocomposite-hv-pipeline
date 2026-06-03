@@ -12,3 +12,11 @@ outputs/
 dist/
 build/
 .DS_Store
+
+# Generated pipeline outputs (keep dir placeholders + raw demo inputs)
+artifacts/*
+!artifacts/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep

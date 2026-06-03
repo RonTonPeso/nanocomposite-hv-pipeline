@@ -14,10 +14,15 @@ Place literature-extracted rows in `data/raw/` (see `data/raw/schema.md`), then:
 
 ```bash
 python scripts/ingest.py --raw data/raw/your_extract.csv --out data/interim/canonical.parquet
-python scripts/build_features.py
 python scripts/train.py
 python scripts/screen_candidates.py --candidates data/raw/candidates_demo.csv
 ```
+
+`scripts/train.py` reads the canonical parquet directly and rebuilds the feature
+matrix per CV fold (the processing encoder is fit on training rows only, so CV stays
+leakage-free). `scripts/build_features.py` is a separate convenience step that writes a
+single full-dataset feature matrix to `data/processed/` for EDA and the notebooks; it is
+not consumed by training.
 
 Config overrides (Hydra `compose` CLI, no `@hydra.main` — compatible with Python 3.14):
 
@@ -35,8 +40,27 @@ python scripts/tune_optuna.py --trials 40 --backend sklearn_hgb
 
 ## Project layout
 
-See the plan in your brief: `configs/`, `data/{raw,interim,processed}/`, `src/nanocomposite_hardness/`, `scripts/`, `tests/`, `slurm/`, `notebooks/`.
+```
+configs/                      Hydra configs (model, validation, features, paths)
+data/{raw,interim,processed}/ raw extracts → canonical parquet → feature matrix
+src/nanocomposite_hardness/
+  io/         unit normalization, weight→volume fraction, canonical assembly
+  features/   composition (matminer), physics proxies, processing encoder
+  pipeline/   feature matrix builder
+  models/     xgb/lgbm/hgb, random forest, ridge, torch MLP
+  validation/ stratified group k-fold, VF extrapolation splits
+  explain/    SHAP summary plots
+scripts/                      ingest, build_features, train, tune_optuna, screen_candidates
+tests/                        unit tests (units, physics features)
+slurm/                        HPC array job for multi-seed training
+notebooks/                    EDA, feature iteration, SHAP analysis
+```
 
 ## Honest evaluation
 
-Always report **group-aware** CV (paper ID) alongside random splits. The gap between them diagnoses leakage from correlated literature rows.
+Always report **group-aware** CV (paper ID) alongside random splits. The gap between them
+diagnoses leakage from correlated literature rows: `train.py` writes
+`split_gap_rmse_log_group_minus_random` to `artifacts/cv_report.json`, where a positive
+value means the grouped error is higher, i.e. random splits are optimistic (leakage).
+A volume-fraction extrapolation holdout (`extrapolation_vf`) additionally tests
+generalization beyond the training reinforcement-loading range.

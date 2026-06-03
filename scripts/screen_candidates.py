@@ -17,7 +17,7 @@ def main() -> None:
     ap.add_argument("--candidates", type=Path, required=True, help="Parquet/CSV with same schema as canonical (minus hv).")
     ap.add_argument("--bundle", type=Path, default=Path("artifacts/screening_bundle.joblib"))
     ap.add_argument("--builder", type=Path, default=Path("artifacts/feature_builder_full.joblib"))
-    ap.add_argument("--out", type=Path, default=Path("artifacts/screening_ranked.parquet"))
+    ap.add_argument("--out", type=Path, default=Path("artifacts/screen_ranked.parquet"))
     ap.add_argument("--top-k", type=int, default=25)
     ap.add_argument("--max-std", type=float, default=None, help="Optional drop rows with ensemble std above this (log-HV scale).")
     args = ap.parse_args()

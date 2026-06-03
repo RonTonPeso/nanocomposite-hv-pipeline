@@ -70,7 +70,7 @@ def _cv_loop(df: pd.DataFrame, cfg: DictConfig, protocol: str) -> dict[str, list
         )
         splits = list(kf.split(np.arange(len(df))))
 
-    fold_metrics: dict[str, list[float]] = {"xgb_rmse": [], "xgb_r2": [], "ridge_rmse": [], "rf_rmse": []}
+    fold_metrics: dict[str, list[float]] = {"primary_rmse": [], "primary_r2": [], "ridge_rmse": [], "rf_rmse": []}
 
     for train_idx, test_idx in splits:
         fb = FeatureMatrixBuilder(
@@ -118,8 +118,8 @@ def _cv_loop(df: pd.DataFrame, cfg: DictConfig, protocol: str) -> dict[str, list
             raise ValueError(cfg.model.name)
 
         met = _metrics(y_te, pred)
-        fold_metrics["xgb_rmse"].append(met["rmse_log"])
-        fold_metrics["xgb_r2"].append(met["r2_log"])
+        fold_metrics["primary_rmse"].append(met["rmse_log"])
+        fold_metrics["primary_r2"].append(met["r2_log"])
 
         phys_cols = [c for c in names if c.startswith("feat_")]
         if phys_cols:
@@ -164,9 +164,10 @@ def run(cfg: DictConfig) -> None:
     if cfg.compare_splits and protocol != "random_kfold":
         metrics_rand = _cv_loop(df, cfg, "random_kfold")
         report["random_kfold"] = {k: float(np.mean(v)) for k, v in metrics_rand.items()}
-        # Positive ⇒ random split reports lower error than grouped (typical literature leakage).
-        report["split_gap_rmse_log_random_minus_group"] = float(
-            np.mean(metrics_rand["xgb_rmse"]) - np.mean(metrics_primary["xgb_rmse"])
+        # group - random: positive ⇒ grouped error is higher, i.e. random splits are
+        # optimistic (the typical signature of leakage from correlated literature rows).
+        report["split_gap_rmse_log_group_minus_random"] = float(
+            np.mean(metrics_primary["primary_rmse"]) - np.mean(metrics_rand["primary_rmse"])
         )
 
     vf = df["vol_frac_reinf"].astype(float).values
