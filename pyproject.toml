@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nanocomposite-hardness"
 version = "0.1.0"
-description = "ML pipeline for Vickers hardness prediction in metal-ceramic nanocomposites"
+description = "Honest, uncertainty-aware small-data materials ML: leakage-aware evaluation, Matbench benchmarking, and conformal prediction, applied to nanocomposite Vickers hardness"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

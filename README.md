@@ -1,6 +1,39 @@
-# Nanocomposite Vickers Hardness — ML Pipeline
+# Nanocomposite Hardness — Honest, Uncertainty-Aware Materials ML
 
-End-to-end pipeline for predicting Vickers microhardness (HV) of metal–ceramic nanocomposites for computational materials discovery.
+Small, literature-scale materials datasets are easy to fit and easy to fool yourself with. The
+hard part is not training a model, it is **evaluating it honestly and quantifying its uncertainty
+under distribution shift**. This project is built around that, applied to predicting Vickers
+microhardness (HV) of metal–ceramic nanocomposites for discovery screening.
+
+Three pillars:
+
+1. **Leakage-aware evaluation** — paper-grouped cross-validation with a quantified leakage gap,
+   plus a volume-fraction extrapolation holdout.
+2. **Numbers you can place** — the same composition features and models benchmarked on Matbench's
+   elastic-moduli tasks under the official folds, comparable to the public leaderboard.
+3. **Calibrated uncertainty** — conformal prediction intervals with measured coverage, and an
+   honest demonstration of where that coverage breaks.
+
+The hardness application currently runs on a small synthetic dataset (real literature extraction
+is the next step), so the methodology is validated quantitatively on ~11k real Matbench entries.
+
+## Results at a glance
+
+**Matbench elastic moduli** (MAE, log₁₀ GPa, official 5-fold split, composition-only features):
+
+| Task | Ours (HGB) | Ours (RF) | coNGN (structure GNN, SOTA) |
+|------|-----------|-----------|------------------------------|
+| `log_gvrh` (shear) | 0.114 | 0.112 | 0.067 |
+| `log_kvrh` (bulk)  | 0.089 | 0.088 | 0.049 |
+
+Composition-only, no crystal structure and no tuning: mid-pack, behind structure GNNs by design.
+That gap is the honest ceiling for experimental composites, where structures are unavailable.
+
+**Conformal coverage** (nominal 90%, Matbench): naive ensemble-Gaussian intervals under-cover
+badly (0.33–0.43), split conformal restores nominal coverage on a random split (~0.90), and
+coverage collapses under extrapolation (0.46–0.75) because exchangeability breaks. That last point
+is the failure mode the leakage-aware evaluation is designed to expose. See
+[Benchmarking](#benchmarking-against-matbench) and [Uncertainty](#uncertainty-quantification-conformal-prediction).
 
 ## Quick start
 
@@ -37,6 +70,18 @@ Optional tuning:
 ```bash
 python scripts/tune_optuna.py --trials 40 --backend sklearn_hgb
 ```
+
+## Honest evaluation
+
+Always report **group-aware** CV (grouped by paper ID) alongside random splits. Multiple rows from
+the same paper are near-duplicates; if they straddle the train/test boundary the model memorizes
+the paper and reports an optimistic score. The gap between the two protocols quantifies that
+leakage: `train.py` writes `split_gap_rmse_log_group_minus_random` to `artifacts/cv_report.json`,
+where a positive value means the grouped error is higher, i.e. the random split was optimistic.
+
+A volume-fraction extrapolation holdout (`extrapolation_vf` in the same report) goes further: train
+on low reinforcement loadings, test on the high-loading samples the model never saw. That is the
+real discovery question, generalization beyond the training range, not interpolation within it.
 
 ## Benchmarking against Matbench
 
@@ -102,11 +147,3 @@ slurm/                        HPC array job for multi-seed training
 notebooks/                    EDA, feature iteration, SHAP analysis
 ```
 
-## Notes to Self
-
-Always report **group-aware** CV ,paper ID, alongside random splits. The gap between them
-diagnoses leakage from related literature rows `train.py` writes
-`split_gap_rmse_log_group_minus_random` to `artifacts/cv_report.json`, where a pos
-val means the grouped error is higher, random splits are optimistic - leakage.
-A volume-fraction extrapolation holdout (`extrapolation_vf`) tests
-generalization beyond the training reinforcement-loading range.
