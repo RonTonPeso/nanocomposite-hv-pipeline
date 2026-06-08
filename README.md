@@ -38,6 +38,24 @@ Optional tuning:
 python scripts/tune_optuna.py --trials 40 --backend sklearn_hgb
 ```
 
+## Benchmarking against Matbench
+
+The hardness data is small and synthetic for now, so to place the pipeline against published
+work we run the same Magpie composition features and default models on the Matbench elastic
+moduli tasks (`matbench_log_gvrh`, `matbench_log_kvrh`, ~11k real entries each):
+
+```bash
+python scripts/benchmark_matbench.py                          # both tasks, hgb + rf
+python scripts/benchmark_matbench.py --tasks log_gvrh --model sklearn_hgb
+```
+
+Scoring uses Matbench's official fixed 5-fold split (seed 18012019), so the reported MAE
+(log10 GPa) is directly comparable to the public leaderboard. Results land in
+`artifacts/matbench_report.json` next to cited SOTA values. These are **composition-only**
+features (no crystal structure), the honest ceiling for experimental composites where
+structures are unavailable; expect to sit behind structure-based GNNs. First run downloads the
+datasets and caches the feature matrices to `data/processed/` so reruns are fast.
+
 ## Project layout
 
 ```
@@ -50,7 +68,8 @@ src/nanocomposite_hardness/
   models/     xgb/lgbm/hgb, random forest, ridge, torch MLP
   validation/ stratified group k-fold, VF extrapolation splits
   explain/    SHAP summary plots
-scripts/                      ingest, build_features, train, tune_optuna, screen_candidates
+  benchmarks/ Matbench elastic-moduli benchmark (leaderboard-comparable)
+scripts/                      ingest, build_features, train, tune_optuna, screen_candidates, benchmark_matbench
 tests/                        unit tests (units, physics features)
 slurm/                        HPC array job for multi-seed training
 notebooks/                    EDA, feature iteration, SHAP analysis

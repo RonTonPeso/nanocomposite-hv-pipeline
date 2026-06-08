@@ -13,6 +13,10 @@ dist/
 build/
 .DS_Store
 
+# Private presentation/demo prep (not for the repo)
+.speaker-notes.md
+materials_informatics_report.md
+
 # Generated pipeline outputs (keep dir placeholders + raw demo inputs)
 artifacts/*
 !artifacts/.gitkeep
