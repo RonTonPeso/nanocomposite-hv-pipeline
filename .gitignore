@@ -16,6 +16,8 @@ build/
 # Private presentation/demo prep (not for the repo)
 .speaker-notes.md
 materials_informatics_report.md
+slides/
+scripts/make_slide_figures.py
 
 # Generated pipeline outputs (keep dir placeholders + raw demo inputs)
 artifacts/*
